@@ -160,15 +160,3 @@ class Coalition(HoR):
     def is_minimum_winning(self):
         return all(map(self.has_key_party, self.parties))
 
-    haar = NotImplemented
-    dev = NotImplemented
-    ens = NotImplemented
-    env = NotImplemented
-    rrp = NotImplemented
-    bantsaf_influence = NotImplemented
-    shepli_shubic = NotImplemented
-    jonson_general = NotImplemented
-    jonson_influence = NotImplemented
-    digen_pakel_general = NotImplemented
-    digen_pakel_influence = NotImplemented
-    holer_pakel = NotImplemented
