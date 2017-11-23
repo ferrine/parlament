@@ -34,3 +34,8 @@ def test_key_parties(parties, hor):
     assert [] == hor.as_coalition().key_parties()
     coalition = Coalition(hor, parties[1:])
     assert parties[-1:] == coalition.key_parties()
+    coalition = Coalition(hor, parties[2:])
+    assert coalition.is_minimum_winning()
+    coalition = Coalition(hor, parties[:2])
+    assert not coalition.is_minimum_winning()
+

@@ -14,6 +14,7 @@ def test_env(hor):
     vi = (1100/v,  2000/v, 3300/v,  4500/v)
     true = 1/sum(_vi**2 for _vi in vi)
     assert np.allclose(stats.env(hor),  true)
+    assert np.allclose(hor.env(), true)
 
 
 def test_ens(hor):
@@ -21,6 +22,7 @@ def test_ens(hor):
     si = (10 / s, 20 / s, 30 / s, 41 / s)
     true = 1 / sum(_si ** 2 for _si in si)
     assert np.allclose(stats.ens(hor), true)
+    assert np.allclose(hor.ens(), true)
 
 
 def test_dev(hor):
@@ -33,6 +35,7 @@ def test_dev(hor):
     asvi = tuple(map(abs, ((_si - _vi) for (_si, _vi) in zip(si, vi))))
     true = sum(asvi) / 2
     assert np.allclose(stats.dev(hor), true)
+    assert np.allclose(hor.dev(), true)
 
 
 def test_rrp(hor):
@@ -40,4 +43,4 @@ def test_rrp(hor):
     _ens = stats.ens(hor)
     true = (_env - _ens) / _ens * 100
     assert stats.rrp(hor) == true
-
+    assert hor.rrp() == true

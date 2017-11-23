@@ -1,6 +1,12 @@
 import collections
 import itertools
+from . import stats
 
+__all__ = [
+    'Party',
+    'HoR',
+    'Coalition'
+]
 
 Party = collections.namedtuple('Party', 'name,votes,seats')
 
@@ -78,6 +84,19 @@ class HoR(object):
     def __lt__(self, other):
         return self.seats < other.seats
 
+    haar = stats.haar
+    dev = stats.dev
+    ens = stats.ens
+    env = stats.env
+    rrp = stats.rrp
+    bantsaf_influence = stats.bantsaf_influence
+    shepli_shubic = stats.shepli_shubic
+    jonson_general = stats.jonson_general
+    jonson_influence = stats.jonson_influence
+    digen_pakel_general = stats.digen_pakel_general
+    digen_pakel_influence = stats.digen_pakel_influence
+    holer_pakel = stats.holer_pakel
+
 
 class Coalition(HoR):
     def __init__(self, hor, parties, *, _opposition=None):
@@ -124,7 +143,7 @@ class Coalition(HoR):
             raise TypeError('Wrong type for {}'.format(other))
         return self.__class__(self.hor, new)
 
-    def is_key_party(self, party):
+    def has_key_party(self, party):
         if party not in self:
             return False
         else:
@@ -136,8 +155,20 @@ class Coalition(HoR):
             )
 
     def key_parties(self):
-        return list(filter(self.is_key_party, self.parties))
+        return list(filter(self.has_key_party, self.parties))
 
     def is_minimum_winning(self):
-        return all(map(self.is_key_party, self.parties))
+        return all(map(self.has_key_party, self.parties))
 
+    haar = NotImplemented
+    dev = NotImplemented
+    ens = NotImplemented
+    env = NotImplemented
+    rrp = NotImplemented
+    bantsaf_influence = NotImplemented
+    shepli_shubic = NotImplemented
+    jonson_general = NotImplemented
+    jonson_influence = NotImplemented
+    digen_pakel_general = NotImplemented
+    digen_pakel_influence = NotImplemented
+    holer_pakel = NotImplemented
