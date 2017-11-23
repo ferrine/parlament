@@ -1,4 +1,4 @@
-from parlament import stats
+from parlament import stats, HoR, Party
 
 
 import numpy as np
@@ -44,3 +44,33 @@ def test_rrp(hor):
     true = (_env - _ens) / _ens * 100
     assert stats.rrp(hor) == true
     assert hor.rrp() == true
+
+
+def test_bantsaf():
+    # 5, 10, 20, 30, 35
+    parties = [
+        Party(1, 1, 5),
+        Party(2, 1, 10),
+        Party(3, 1, 20),
+        Party(4, 1, 30),
+        Party(5, 1, 35)
+    ]
+    hor = HoR(parties)
+    true = [1/25, 1/25, 7/25, 7/25, 9/25]
+    test = [hor.bantsaf_influence(p) for p in parties]
+    assert test == true
+
+
+def test_shepli():
+    # 5, 10, 20, 30, 35
+    parties = [
+        Party(1, 1, 5),
+        Party(2, 1, 10),
+        Party(3, 1, 20),
+        Party(4, 1, 30),
+        Party(5, 1, 35)
+    ]
+    hor = HoR(parties)
+    true = [2/60, 2/60, 17/60, 17/60, 22/60]
+    test = [hor.shepli_shubic(p) for p in parties]
+    assert test == true

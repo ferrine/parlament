@@ -15,7 +15,7 @@ class HoR(object):
     """House of Representatives"""
 
     def __init__(self, parties):
-        self._parties = list(sorted(parties, key=lambda p: p.votes, reverse=True))
+        self._parties = list(sorted(parties, key=lambda p: (p.seats, p.votes), reverse=True))
 
     @property
     def parties(self):
@@ -151,7 +151,7 @@ class Coalition(HoR):
             return (
                 (self > opposition)
                 and
-                ((self - party) < (opposition + party))
+                ((self - party) <= (opposition + party))
             )
 
     def key_parties(self):
