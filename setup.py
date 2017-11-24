@@ -9,5 +9,8 @@ if __name__ == '__main__':
         maintainer_email='maxim.v.kochurov@gmail.com',
         description='Tool for parlament description',
         license='Apache License, Version 2.0',
-        tests_require=['pytest']
+        install_requires=['tabulate'],
+        tests_require=['pytest'],
+        scripts=['bin/describe-hor'],
+
     )

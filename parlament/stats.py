@@ -1,4 +1,5 @@
 import collections
+import tabulate
 import math
 
 __all__ = [
@@ -107,3 +108,41 @@ def holer_pakel(hor, party):
             for p in coalition.parties:
                 hpi[p] += 1
     return hpi[party] / sum(hpi.values())
+
+
+def describe(hor):
+    res = ""
+    rows = list()
+    head = ['', 'seats', 'parties', 'haar', 'dev', 'ens', 'env', 'rrp']
+    rows.append(['HoR', hor.seats, len(hor), hor.haar(), hor.dev(), hor.ens(), hor.env(), hor.rrp()])
+    res += tabulate.tabulate(rows, headers=head)
+    res += '\n\n'
+    head = [
+        'name',
+        'votes',
+        'seats',
+        'bantsaf_influence',
+        'shepli_shubic',
+        'jonson_general',
+        'jonson_influence',
+        'digen_pakel_general',
+        'digen_pakel_influence',
+        'holer_pakel'
+    ]
+    rows = list()
+    for party in hor.parties:
+        rows.append([
+            party.name,
+            party.votes,
+            party.seats,
+            hor.bantsaf_influence(party),
+            hor.shepli_shubic(party),
+            hor.jonson_general(party),
+            hor.jonson_influence(party),
+            hor.digen_pakel_general(party),
+            hor.digen_pakel_influence(party),
+            hor.holer_pakel(party)
+        ])
+    res += tabulate.tabulate(rows, headers=head)
+    return res
+

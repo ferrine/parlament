@@ -16,6 +16,10 @@ class HoR(object):
 
     def __init__(self, parties):
         self._parties = list(sorted(parties, key=lambda p: (p.seats, p.votes), reverse=True))
+        self._party_mapping = {p.name: p for p in self._parties}
+
+    def __getitem__(self, item):
+        return self._party_mapping[item]
 
     @property
     def parties(self):
@@ -96,6 +100,7 @@ class HoR(object):
     digen_pakel_general = stats.digen_pakel_general
     digen_pakel_influence = stats.digen_pakel_influence
     holer_pakel = stats.holer_pakel
+    describe = stats.describe
 
 
 class Coalition(HoR):
