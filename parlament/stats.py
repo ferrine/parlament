@@ -64,8 +64,8 @@ def shepli_shubic(hor, party):
     res = 0
     for coalition in hor.iter_coalitions():
         if coalition.has_key_party(party):
-            res += math.factorial(len(coalition) - 1)*math.factorial(n - len(coalition))
-    return res/math.factorial(n)
+            res += math.factorial(len(coalition) - 1) * math.factorial(n - len(coalition))
+    return res / math.factorial(n)
 
 
 @functools.lru_cache(maxsize=None)
