@@ -1,3 +1,4 @@
+import functools
 import collections
 import tabulate
 import math
@@ -44,6 +45,7 @@ def rrp(hor):
     return (_env - _ens) / _ens * 100
 
 
+@functools.lru_cache(maxsize=None)
 def bantsaf_influence(hor, party):
     if party not in hor:
         raise ValueError('{} not in HoR'.format(party))
@@ -54,6 +56,7 @@ def bantsaf_influence(hor, party):
     return bi[party] / sum(bi.values())
 
 
+@functools.lru_cache(maxsize=None)
 def shepli_shubic(hor, party):
     if party not in hor:
         raise ValueError('{} not in HoR'.format(party))
@@ -65,6 +68,7 @@ def shepli_shubic(hor, party):
     return res/math.factorial(n)
 
 
+@functools.lru_cache(maxsize=None)
 def jonson_general(hor, party):
     if party not in hor:
         raise ValueError('{} not in HoR'.format(party))
@@ -82,6 +86,7 @@ def jonson_influence(hor, party):
     return jg[party] / sum(jg.values())
 
 
+@functools.lru_cache(maxsize=None)
 def digen_pakel_general(hor, party):
     if party not in hor:
         raise ValueError('{} not in HoR'.format(party))
@@ -99,6 +104,7 @@ def digen_pakel_influence(hor, party):
     return dpg[party] / sum(dpg.values())
 
 
+@functools.lru_cache(maxsize=None)
 def holer_pakel(hor, party):
     if party not in hor:
         raise ValueError('{} not in HoR'.format(party))
@@ -110,12 +116,12 @@ def holer_pakel(hor, party):
     return hpi[party] / sum(hpi.values())
 
 
-def describe(hor):
+def describe(hor, **tab_kw):
     res = ""
     rows = list()
     head = ['', 'seats', 'parties', 'haar', 'dev', 'ens', 'env', 'rrp']
-    rows.append(['HoR', hor.seats, len(hor), hor.haar(), hor.dev(), hor.ens(), hor.env(), hor.rrp()])
-    res += tabulate.tabulate(rows, headers=head)
+    rows.append(['HoR', int(hor.seats), len(hor), hor.haar(), hor.dev(), hor.ens(), hor.env(), hor.rrp()])
+    res += tabulate.tabulate(rows, headers=head, **tab_kw)
     res += '\n\n'
     head = [
         'name',
@@ -133,8 +139,8 @@ def describe(hor):
     for party in hor.parties:
         rows.append([
             party.name,
-            party.votes,
-            party.seats,
+            int(party.votes),
+            int(party.seats),
             hor.bantsaf_influence(party),
             hor.shepli_shubic(party),
             hor.jonson_general(party),
@@ -143,6 +149,6 @@ def describe(hor):
             hor.digen_pakel_influence(party),
             hor.holer_pakel(party)
         ])
-    res += tabulate.tabulate(rows, headers=head)
+    res += tabulate.tabulate(rows, headers=head, **tab_kw)
     return res
 

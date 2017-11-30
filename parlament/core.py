@@ -15,7 +15,7 @@ class HoR(object):
     """House of Representatives"""
 
     def __init__(self, parties):
-        self._parties = list(sorted(parties, key=lambda p: (p.seats, p.votes), reverse=True))
+        self._parties = tuple(sorted(parties, key=lambda p: (p.seats, p.votes), reverse=True))
         self._party_mapping = {p.name: p for p in self._parties}
 
     def __getitem__(self, item):
@@ -69,6 +69,9 @@ class HoR(object):
 
     def __len__(self):
         return len(self._parties)
+
+    def __hash__(self):
+        return hash(self._parties)
 
     def same_as(self, hor):
         return self.parties == hor.parties
@@ -124,12 +127,12 @@ class Coalition(HoR):
         if isinstance(other, Party):
             if other in self:
                 raise ValueError('{} is already present in HoR'.format(other))
-            new = self._parties + [other]
+            new = self._parties + (other, )
         elif isinstance(other, Coalition) and other.hor.same_as(self.hor):
             intercept = set(other) & set(self._parties)
             if intercept:
                 raise ValueError('{} are already present in HoR'.format(intercept))
-            new = self._parties + list(other)
+            new = self._parties + tuple(other)
         else:
             raise TypeError('Wrong type for {}'.format(other))
         return self.__class__(self.hor, new)
