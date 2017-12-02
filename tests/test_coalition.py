@@ -1,6 +1,6 @@
 import pytest
 
-from parlament.core import Coalition
+from parliament.core import Coalition
 
 
 def test_add(parties, hor):

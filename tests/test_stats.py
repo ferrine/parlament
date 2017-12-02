@@ -1,4 +1,4 @@
-from parlament import stats, HoR, Party
+from parliament import stats, HoR, Party
 
 
 import numpy as np

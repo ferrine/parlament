@@ -1,6 +1,6 @@
 import pytest
 
-from parlament.core import Party, HoR
+from parliament.core import Party, HoR
 
 
 @pytest.fixture('session')
