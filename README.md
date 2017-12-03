@@ -9,6 +9,12 @@ Lightweight util to get usefull descriptive statistics for House of Representati
 import pandas as pd
 import parliament
 data = pd.read_csv('data/CzechHoR.csv', sep=';')
+# file: data/CzechHoR.csv
+#
+# abbr;name;votes;seats
+# ANO;ANO 2011;1500113;78
+# ODS & SsCR;Civic Democratic Party;572962;25
+# ...
 hor = parliament.read.hor_from_df(data, name='abbr')
 print(*hor.parties, sep='\n')
 
