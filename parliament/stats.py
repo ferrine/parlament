@@ -15,7 +15,8 @@ __all__ = [
     'jonson_influence',
     'digen_pakel_general',
     'digen_pakel_influence',
-    'holer_pakel'
+    'holer_pakel',
+    'describe'
 ]
 
 
