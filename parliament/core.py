@@ -14,7 +14,8 @@ Party = collections.namedtuple('Party', 'name,votes,seats')
 class HoR(object):
     """House of Representatives"""
 
-    def __init__(self, parties):
+    def __init__(self, parties, name='HoR'):
+        self.name = name
         self._parties = tuple(sorted(parties, key=lambda p: (p.seats, p.votes), reverse=True))
         self._party_mapping = {p.name: p for p in self._parties}
 
@@ -105,10 +106,38 @@ class HoR(object):
     holer_pakel = stats.holer_pakel
     describe = stats.describe
 
+    def map_stat(self, stat):
+        if stat in ('seats', 'votes'):
+            return {party.name: getattr(party, stat)
+                    for party in self._parties}
+        elif stat in (
+            stats.bantsaf_influence,
+            stats.shepli_shubic,
+            stats.jonson_general,
+            stats.jonson_influence,
+            stats.digen_pakel_general,
+            stats.digen_pakel_influence,
+            stats.holer_pakel,
+        ):
+            return {party.name: stat(self, party)
+                    for party in self._parties}
+        elif stat not in (
+                'bantsaf_influence',
+                'shepli_shubic',
+                'jonson_general',
+                'jonson_influence',
+                'digen_pakel_general',
+                'digen_pakel_influence',
+                'holer_pakel',
+        ):
+            raise ValueError('Stat {} cannot be computed'.format(stat))
+        return {party.name: getattr(self, stat)(party)
+                for party in self._parties}
+
 
 class Coalition(HoR):
-    def __init__(self, hor, parties, *, _opposition=None):
-        super().__init__(parties)
+    def __init__(self, hor, parties, name='Coalition', *, _opposition=None):
+        super().__init__(parties, name=name)
         self._hor = hor
         self._opposition = _opposition
 
